@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fintracker_db
+    url: jdbc:postgresql://localhost:5432/financial_tracker
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -11,12 +11,17 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   flyway:
     enabled: true
     locations: classpath:db/migration
 
-  server:
-    port: 8080
+server:
+  port: 8080
+
+jwt:
+  secret: R8z%z^K2@cL#7q!uT&Bq2rXNmY@K49$e
+  access-token-expiration-ms: 900000      # 15 минут
+  refresh-token-expiration-ms: 604800000  # 7 дней
+
