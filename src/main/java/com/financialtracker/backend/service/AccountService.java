@@ -48,4 +48,31 @@ public class AccountService {
                         .build()
                 ).collect(Collectors.toList());
     }
+
+    public void update(Long accountId, AccountRequestDTO requestDTO, Authentication auth) {
+
+        User user = (User) auth.getPrincipal();
+
+        Account account = accountRepository.findById(accountId)
+                .filter(acc -> acc.getUser().getId().equals(user.getId()))
+                .orElseThrow(() -> new RuntimeException("Account not found or not yours"));
+
+        account.setName(requestDTO.getName());
+        if (requestDTO.getCurrency() != null) {
+            account.setCurrency(requestDTO.getCurrency());
+        }
+
+        accountRepository.save(account);
+    }
+
+    public void delete(Long accountId, Authentication auth) {
+
+        User user = (User) auth.getPrincipal();
+
+        Account account = accountRepository.findById(accountId)
+                .filter(a -> a.getUser().getId().equals(accountId))
+                .orElseThrow(() -> new RuntimeException("Account not found or not yours"));
+
+        accountRepository.delete(account);
+    }
 }
