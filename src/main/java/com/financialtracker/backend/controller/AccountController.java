@@ -28,4 +28,20 @@ public class AccountController {
     public ResponseEntity<List<AccountResponseDTO>> getAll(Authentication authentication) {
         return ResponseEntity.ok(accountService.getAll(authentication));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(
+            @PathVariable Long id,
+            @RequestBody AccountRequestDTO accountRequestDTO,
+            Authentication authentication) {
+
+        accountService.update(id, accountRequestDTO, authentication);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id, Authentication authentication) {
+        accountService.delete(id, authentication);
+        return ResponseEntity.noContent().build();
+    }
 }
